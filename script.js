@@ -9,7 +9,7 @@ $("#mainpage").append(`
 `);
 $('#updub').click(function() {
   updubs += 1
-  $('#updub').innerHTML = updubs
+  $('#updub').html = updubs
   alert("Hello World!")
 })
 $('#downdub').click(function() { downdubs += 1 })
