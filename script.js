@@ -7,5 +7,5 @@ $("#mainpage").append(`
     <div id="downdub" style="color: red;"> ${downdubs} </div>
   </div>
 `);
-$('#updub').attr('onclick', () => { updubs += 1 });
-$('#downdub').attr('onclick', () => { downdubs += 1 });
+$('#updub').click(function() { updubs += 1 })
+$('#downdub').click(function() { downdubs += 1 })
