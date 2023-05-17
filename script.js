@@ -1,5 +1,14 @@
 console.log('hola')
 const mainpage = document.getElementById("mainpage")
-let imageElement = document.createElement('img');
-imageElement.setAttribute('src','https://www.cnet.com/a/img/resize/8aa032987077903f8ee110feb7323ea4df61d0dd/hub/2022/10/13/383cce3b-5757-436a-8bdb-2665aaafd56a/imessage-text-messages.jpg?auto=webp&fit=crop&height=675&width=1200');
-mainpage.appendChild(imageElement)
+const dubsDiv = document.createElement('div')
+const upDubsButton = document.createElement('div')
+const downDubsButton = document.createElement('div')
+upDubsButton.innerHTML += '1'
+downDubsButton.innerHTML += '1'
+
+upDubsButton.style.backgroundColor = 'green'
+downDubsButton.style.backgroundColor = 'red'
+
+dubsDiv.appendChild(upDubsButton)
+dubsDiv.appendChild(downDubsButton)
+mainpage.appendChild(dubsDiv)
