@@ -9,7 +9,9 @@ $("#mainpage").append(`
 `);
 $('#updub').click(function() {
   updubs += 1
-  $('#updub').html = updubs
-  alert(updubs)
+  $('#updub').html(updubs)
 })
-$('#downdub').click(function() { downdubs += 1 })
+$('#downdub').click(function() {
+  downdubs += 1
+  $('#downdub').html(downdubs)
+})
