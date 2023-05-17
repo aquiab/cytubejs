@@ -11,18 +11,18 @@ $("#mainpage").append(`
 function vote() {
 	updubs.includes(currentUser) ? 
 		updubs.splice(updubs.indexOf(currentUser), 1) : updubs.push(currentUser)
-
 }
 
 $('#updub').click(function () {
 	vote()
 	$('#chatline').val('updub');
 	$('#updub').html(updubs.length)
+	alert(updubs.length)
 
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
 $('#downdub').click(function () {
-	$('#downdub').html(downdubs)
+	$('#downdub').html(downdubs.length)
 })
