@@ -10,6 +10,6 @@ $("#mainpage").append(`
 $('#updub').click(function() {
   updubs += 1
   $('#updub').html = updubs
-  alert("Hello World!")
+  alert(updubs)
 })
 $('#downdub').click(function() { downdubs += 1 })
