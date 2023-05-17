@@ -12,4 +12,4 @@ downDubsButton.style.backgroundColor = 'red'
 dubsDiv.appendChild(upDubsButton)
 dubsDiv.appendChild(downDubsButton)
 mainpage.appendChild(dubsDiv)
-$("#mainpage").css('margin-top', '-72px');
+$("#mainpage").after('<div><div id="updub" style="color: red;">1</div></div>');
