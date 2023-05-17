@@ -1,21 +1,28 @@
-let updubs = 0
-let downdubs = 0
+var updubs = []
+var downdubs = []
+var currentUser = $('welcome').html().split(',')[1]
 $("#mainpage").append(`
   <div class="dubs-wrapper">
     <div id="updub" style="color: green;"> ${updubs} </div>
     <div id="downdub" style="color: red;"> ${downdubs} </div>
   </div>
 `);
+
+function vote() {
+	updubs.includes(currentUser) ? 
+		updubs.splice(updubs.indexOf(currentUser), 1) : updubs.push(currentUser)
+
+}
+
 $('#updub').click(function () {
-	updubs += 1
+	vote()
 	$('#chatline').val('updub');
-	$('#updub').html(updubs)
+	$('#updub').html(updubs.length)
 
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
 $('#downdub').click(function () {
-	downdubs += 1
 	$('#downdub').html(downdubs)
 })
