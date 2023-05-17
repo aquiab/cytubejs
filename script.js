@@ -3,8 +3,8 @@ var downdubs = []
 var currentUser = $('#welcome').html().split(',')[1]
 $("#mainpage").append(`
   <div class="dubs-wrapper">
-    <div id="updub" style="color: green;"> ${updubs} </div>
-    <div id="downdub" style="color: red;"> ${downdubs} </div>
+    <div id="updub" style="color: green;"> ${updubs.length} </div>
+    <div id="downdub" style="color: red;"> ${downdubs.length} </div>
   </div>
 `);
 
