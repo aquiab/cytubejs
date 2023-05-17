@@ -7,5 +7,9 @@ $("#mainpage").append(`
     <div id="downdub" style="color: red;"> ${downdubs} </div>
   </div>
 `);
-$('#updub').click(function() { alert("Hello World!") })
+$('#updub').click(function() {
+  updubs += 1
+  $('#updub').innerHTML = updubs
+  alert("Hello World!")
+})
 $('#downdub').click(function() { downdubs += 1 })
