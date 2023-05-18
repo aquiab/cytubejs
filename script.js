@@ -1,4 +1,5 @@
 var currentUser
+var previousLastMessageUser
 var updubs = []
 var downdubs = []
 const UPDUB_COMMAND = "UPDUB"
@@ -25,9 +26,15 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
+
+	if (previousLastMessageUser === lastMessageUser) {
+		lastMessageDiv.append(`<span><strong class="username">${lastMessageUser}: </strong></span>`)
+	}
+	var previousLastMessageUser = lastMessageUser
+
 	if (lastMessageText === UPDUB_COMMAND) {
-		console.log(lastMessageUser)
-		console.log(currentUser)
+		console.log(`lastMessageUser: ${lastMessageUser}`)
+		console.log(`currentUser: ${currentUser}`)
 		if (lastMessageUser === currentUser) {
 			$('#updubButton').toggleClass("pressed")
 			$('#downdubButton').removeClass("pressed")
@@ -35,6 +42,8 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 		updub(lastMessageUser)
 		lastMessageDiv.css("display", "none");
 	} else if (lastMessageText === DOWNDUB_COMMAND) {
+		console.log(`lastMessageUser: ${lastMessageUser}`)
+		console.log(`currentUser: ${currentUser}`)
 		if (lastMessageUser === currentUser) {
 			$('#downdubButton').toggleClass("pressed")
 			$('#updubButton').removeClass("pressed")
