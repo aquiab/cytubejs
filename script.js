@@ -45,7 +45,7 @@ $("#currenttitle").on('DOMSubtreeModified', function() {
 });
 
 $('#updubButton').click(function () {
-	if ($('#guestlogin').length) return
+	if ($('#guestlogin').is(':visible')) return
 	if (!currentUser) setCurrentUser()
 	$('#chatline').val(UPDUB_COMMAND);
 	var e = $.Event('keydown');
@@ -53,7 +53,7 @@ $('#updubButton').click(function () {
 	$('#chatline').trigger(e);
 })
 $('#downdubButton').click(function () {
-	if ($('#guestlogin').length) return
+	if ($('#guestlogin').is(':visible')) return
 	if (!currentUser) setCurrentUser()
 	$('#chatline').val(DOWNDUB_COMMAND);
 	var e = $.Event('keydown');
