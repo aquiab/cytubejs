@@ -9,7 +9,7 @@ $("#mainpage").append(`
 `)
 
 $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
-	let lastMessage = $("#messagebuffer").last()
+	let lastMessage = $("#messagebuffer:last-child")
 	console.log(lastMessage.attr("class"))
 	console.log(lastMessage.html())
 });
