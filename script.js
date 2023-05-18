@@ -29,32 +29,29 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageText = lastMessageDiv.children().last().html()
 	console.log(`lastMessageUser: ${lastMessageUser}`)
 	console.log(`previousLastMessageUser: ${previousLastMessageUser}`)
-	if (previousLastMessageUser === lastMessageUser && 
-		(previousLastMessageText === UPDUB_COMMAND || previousLastMessageText === DOWNDUB_COMMAND )) {
+	if (previousLastMessageUser === lastMessageUser && isMessageHidden(lastMessageText)) {
 		$(this).off('DOMSubtreeModified');
 		$(`<span><strong class="username">${lastMessageUser}: </strong></span>`).insertAfter(lastMessageDiv.find(".timestamp"))
  		$(this).on('DOMSubtreeModified', arguments.callee);
+	} else if (previousLastMessageUser !== lastMessageUser && isMessageHidden(lastMessageText)) {
+		lastMessageDiv.find(".username").css("display", "none");
 	}
 	previousLastMessageUser = lastMessageUser
 	previousLastMessageText = lastMessageText
 
+	if (isMessageHidden(lastMessageText)) lastMessageDiv.css("display", "none");
 	if (lastMessageText === UPDUB_COMMAND) {
-		console.log(`lastMessageUser: ${lastMessageUser}`)
-		console.log(`currentUser: ${currentUser}`)
 		if (lastMessageUser === currentUser) {
 			$('#updubButton').toggleClass("pressed")
 			$('#downdubButton').removeClass("pressed")
 		}
 		updub(lastMessageUser)
-		lastMessageDiv.css("display", "none");
 	} else if (lastMessageText === DOWNDUB_COMMAND) {
-
 		if (lastMessageUser === currentUser) {
 			$('#downdubButton').toggleClass("pressed")
 			$('#updubButton').removeClass("pressed")
 		}
 		downdub(lastMessageUser)
-		lastMessageDiv.css("display", "none");
 	} 
 });
 
@@ -106,3 +103,5 @@ function refreshDubs() {
 	$('#downdubButton').html(downdubs.length)
 	$('#updubButton').html(updubs.length)
 }
+
+const isMessageHidden = (message) => message === UPDUB_COMMAND || message === DOWNDUB_COMMAND
