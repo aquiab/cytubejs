@@ -3,16 +3,17 @@ var downdubs = []
 const UPDUB_COMMAND = "UPDUB"
 const DOWNDUB_COMMAND = "DOWNDUB"
 
+$(document).ready(function() {
+	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide();
+});
+
+
 $("#mainpage").append(`
   <div class="dubs-wrapper">
     <div id="updub" style="color: green;"> ${updubs.length} </div>
     <div id="downdub" style="color: red;"> ${downdubs.length} </div>
   </div>
 `)
-
-$(document).ready(function() {
-	$("span:contains('updub'), span:contains('downdub')").parent().hide();
-});
 
 $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
