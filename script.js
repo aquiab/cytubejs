@@ -8,8 +8,8 @@ $("#mainpage").append(`
 `)
 
 $(document).ready(function() {
-	$("#messagebuffer:contains('updub')").css("display", "none")
-	$("#messagebuffer:contains('downdub')").css("display", "none")
+	$("#messagebuffer:contains('updub')").find("div").css("display", "none")
+	$("#messagebuffer:contains('downdub')").find("div").css("display", "none")
 });
 
 $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
