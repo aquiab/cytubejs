@@ -4,9 +4,9 @@ var downdubs = []
 const UPDUB_COMMAND = "UPDUB"
 const DOWNDUB_COMMAND = "DOWNDUB"
 
-$(document).ready(function() {
-	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide();
-});
+//(document).ready(function() {
+//	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide();
+//);
 
 $("#leftcontrols").append(`
   <span class="dubs-wrapper">
@@ -31,14 +31,14 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 			$('#downdubButton').removeClass("pressed")
 		}
 		updub(lastMessageUser)
-		lastMessageDiv.css("display", "none");
+		//lastMessageDiv.css("display", "none");
 	} else if (lastMessageText === DOWNDUB_COMMAND) {
 		if (lastMessageUser === currentUser) {
 			$('#downdubButton').toggleClass("pressed")
 			$('#updubButton').removeClass("pressed")
 		}
 		downdub(lastMessageUser)
-		lastMessageDiv.css("display", "none");
+		//lastMessageDiv.css("display", "none");
 	} 
 });
 
