@@ -23,7 +23,7 @@ $("#leftcontrols").append(`
   </div>
 `)
 
-$("#messagebuffer").one('DOMSubtreeModified', function() {
+$("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
