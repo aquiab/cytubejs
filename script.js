@@ -8,11 +8,7 @@ $("#mainpage").append(`
 `)
 
 $(document).ready(function() {
-	$("#messagebuffer").filter(function() {
-		console.log($(this).text())
-		console.log($(this).html())
-		return $(this).text() === "updub";
-	  }).css("display", "none");
+	$("span:contains('updub'), span:contains('downdub')").parent().hide();
 });
 
 $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
