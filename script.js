@@ -7,7 +7,7 @@ $("#mainpage").append(`
   </div>
 `)
 
-$("body").on('ready', "#messagebuffer", function() {
+$(document).ready(function() {
 	var messages = $("#messagebuffer").children()
 	Array.from(messages).forEach(div => {
 		console.log(div)
