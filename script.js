@@ -29,6 +29,7 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	console.log(`lastMessageUser: ${lastMessageUser}`)
 	console.log(`previousLastMessageUser: ${previousLastMessageUser}`)
 	if (previousLastMessageUser === lastMessageUser) {
+		$("#messagebuffer").off('DOMSubtreeModified')
 		lastMessageDiv.append(`<span><strong class="username">${lastMessageUser}: </strong></span>`)
 	}
 	previousLastMessageUser = lastMessageUser
@@ -43,8 +44,7 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 		updub(lastMessageUser)
 		lastMessageDiv.css("display", "none");
 	} else if (lastMessageText === DOWNDUB_COMMAND) {
-		console.log(`lastMessageUser: ${lastMessageUser}`)
-		console.log(`currentUser: ${currentUser}`)
+
 		if (lastMessageUser === currentUser) {
 			$('#downdubButton').toggleClass("pressed")
 			$('#updubButton').removeClass("pressed")
