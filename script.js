@@ -7,12 +7,12 @@ $(document).ready(function() {
 	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide();
 });
 
-$("#mainpage").append(`
+$("#leftcontrols").append(`
   <div class="dubs-wrapper">
-    <div class="dub-button" id="updub" style="color: green;"> 
+    <div class="dub-button btn btn-md btn-default" id="updub"> 
 		${updubs.length} 
 	</div>
-    <div class="dub-button" id="downdub" style="color: red;"> 
+    <div class="dub-button btn btn-md btn-default" id="downdub"> 
 		${downdubs.length} 
 	</div>
   </div>
