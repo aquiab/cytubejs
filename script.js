@@ -9,10 +9,10 @@ $(document).ready(function() {
 
 $("#leftcontrols").append(`
   <span class="dubs-wrapper">
-    <div class="dub-button btn btn-sm btn-default" id="updub"> 
+    <div class="dub-button btn btn-sm btn-default" id="updubButton"> 
 		${updubs.length} 
 	</div>
-    <div class="dub-button btn btn-sm btn-default" id="downdub"> 
+    <div class="dub-button btn btn-sm btn-default" id="downdubButton"> 
 		${downdubs.length} 
 	</div>
   </div>
@@ -35,13 +35,13 @@ $("#currenttitle").on('DOMSubtreeModified', function() {
 	resetDubs()
 });
 
-$('#updub').click(function () {
+$('#updubButton').click(function () {
 	$('#chatline').val(UPDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
-$('#downdub').click(function () {
+$('#downdubButton').click(function () {
 	$('#chatline').val(DOWNDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
@@ -53,9 +53,9 @@ function updub(user) {
 		updubs.splice(updubs.indexOf(user), 1) : updubs.push(user)
 	if (downdubs.includes(user)) {
 		downdubs.splice(downdubs.indexOf(user), 1)
-		$('#downdub').toggleClass("pressed")
+		$('#downdubButton').toggleClass("pressed")
 	}
-	$('#updub').toggleClass("pressed")
+	$('#updubButton').toggleClass("pressed")
 	refreshDubs()
 }
 function downdub(user) {
@@ -63,9 +63,9 @@ function downdub(user) {
 		downdubs.splice(downdubs.indexOf(user), 1) : downdubs.push(user)
 	if (updubs.includes(user)) {
 		updubs.splice(updubs.indexOf(user), 1)
-		$('#updub').toggleClass("pressed")
+		$('#updubButton').toggleClass("pressed")
 	}
-	$('#downdub').toggleClass("pressed")
+	$('#downdubButton').toggleClass("pressed")
 	refreshDubs()
 }
 
@@ -73,10 +73,12 @@ function resetDubs() {
 	updubs = []
 	downdubs = []
 	refreshDubs()
+	$('#downdubButton').removeClass("pressed")
+	$('#updubButton').removeClass("pressed")
 }
 
 function refreshDubs() {
-	$('#downdub').html(downdubs.length)
-	$('#updub').html(updubs.length)
+	$('#downdubButton').html(downdubs.length)
+	$('#updubButton').html(updubs.length)
 
 }
