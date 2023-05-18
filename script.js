@@ -9,10 +9,10 @@ $(document).ready(function() {
 
 $("#leftcontrols").append(`
   <span class="dubs-wrapper">
-    <div class="dub-button btn btn-md btn-default" id="updub"> 
+    <div class="dub-button btn btn-sm btn-default" id="updub"> 
 		${updubs.length} 
 	</div>
-    <div class="dub-button btn btn-md btn-default" id="downdub"> 
+    <div class="dub-button btn btn-sm btn-default" id="downdub"> 
 		${downdubs.length} 
 	</div>
   </div>
