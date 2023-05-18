@@ -23,6 +23,7 @@ $('#updub').click(function () {
 	updub()
 	$('#chatline').val('updub');
 	$('#updub').html(updubs.length)
+	$('#downdub').html(downdubs.length)
 
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
@@ -32,6 +33,7 @@ $('#downdub').click(function () {
 	downdub()
 	$('#chatline').val('downdub');
 	$('#downdub').html(downdubs.length)
+	$('#updub').html(updubs.length)
 
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
