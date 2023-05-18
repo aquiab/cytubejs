@@ -6,7 +6,11 @@ $("#mainpage").append(`
     <div id="updub" style="color: green;"> ${updubs.length} </div>
     <div id="downdub" style="color: red;"> ${downdubs.length} </div>
   </div>
-`);
+`)
+
+$("body").on('DOMSubtreeModified', "#messagebuffer", function() {
+    alert('changed');
+});
 
 function updub() {
 	updubs.includes(currentUser) ? 
@@ -24,6 +28,7 @@ $('#updub').click(function () {
 	$('#chatline').val('updub');
 	$('#updub').html(updubs.length)
 	$('#downdub').html(downdubs.length)
+	
 
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
