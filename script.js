@@ -51,14 +51,20 @@ $('#downdub').click(function () {
 function updub(user) {
 	updubs.includes(user) ? 
 		updubs.splice(updubs.indexOf(user), 1) : updubs.push(user)
-	downdubs.includes(user) && downdubs.splice(downdubs.indexOf(user), 1)
+	if (downdubs.includes(user)) {
+		downdubs.splice(downdubs.indexOf(user), 1)
+		$('#downdub').toggleClass("pressed")
+	}
 	$('#updub').toggleClass("pressed")
 	refreshDubs()
 }
 function downdub(user) {
 	downdubs.includes(user) ? 
 		downdubs.splice(downdubs.indexOf(user), 1) : downdubs.push(user)
-	updubs.includes(user) && updubs.splice(updubs.indexOf(user), 1)
+	if (updubs.includes(user)) {
+		updubs.splice(updubs.indexOf(user), 1)
+		$('#updub').toggleClass("pressed")
+	}
 	$('#downdub').toggleClass("pressed")
 	refreshDubs()
 }
