@@ -4,9 +4,10 @@ var downdubs = []
 const UPDUB_COMMAND = "UPDUB"
 const DOWNDUB_COMMAND = "DOWNDUB"
 
-//(document).ready(function() {
-//	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide();
-//);
+$(document).ready(function() {
+	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide()
+	currentUser = $("#welcome").text().split(',')[1]
+});
 
 $("#leftcontrols").append(`
   <span class="dubs-wrapper">
@@ -24,21 +25,19 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
 	if (lastMessageText === UPDUB_COMMAND) {
-		console.log(lastMessageUser)
-		console.log(currentUser)
 		if (lastMessageUser === currentUser) {
 			$('#updubButton').toggleClass("pressed")
 			$('#downdubButton').removeClass("pressed")
 		}
 		updub(lastMessageUser)
-		//lastMessageDiv.css("display", "none");
+		lastMessageDiv.css("display", "none");
 	} else if (lastMessageText === DOWNDUB_COMMAND) {
 		if (lastMessageUser === currentUser) {
 			$('#downdubButton').toggleClass("pressed")
 			$('#updubButton').removeClass("pressed")
 		}
 		downdub(lastMessageUser)
-		//lastMessageDiv.css("display", "none");
+		lastMessageDiv.css("display", "none");
 	} 
 });
 
@@ -52,7 +51,6 @@ $('#updubButton').click(function () {
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
-	if (!currentUser) setCurrentUser()
 })
 $('#downdubButton').click(function () {
 	if ($('#guestlogin').is(':visible')) return
@@ -60,13 +58,7 @@ $('#downdubButton').click(function () {
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
-	if (!currentUser) setCurrentUser()
 })
-
-function setCurrentUser() {
-	var lastMessageDiv = $("#messagebuffer").children().last()
-	currentUser = lastMessageDiv.attr("class").split('-')[2]
-}
 
 function updub(user) {
 	updubs.includes(user) ? 
