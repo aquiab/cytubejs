@@ -21,11 +21,13 @@ $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
 });
 
 function updub(user) {
+	console.log(user)
 	updubs.includes(user) ? 
 		updubs.splice(updubs.indexOf(user), 1) : updubs.push(user)
 	downdubs.includes(user) && downdubs.splice(downdubs.indexOf(user), 1)
 }
 function downdub(user) {
+	console.log(user)
 	downdubs.includes(user) ? 
 		downdubs.splice(downdubs.indexOf(user), 1) : downdubs.push(user)
 	updubs.includes(user) && updubs.splice(updubs.indexOf(user), 1)
