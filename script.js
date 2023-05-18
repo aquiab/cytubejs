@@ -1,5 +1,8 @@
 var updubs = []
 var downdubs = []
+const UPDUB_COMMAND = "UPDUB"
+const DOWNDUB_COMMAND = "DOWNDUB"
+
 $("#mainpage").append(`
   <div class="dubs-wrapper">
     <div id="updub" style="color: green;"> ${updubs.length} </div>
@@ -15,17 +18,16 @@ $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
-	if (lastMessageText === "updub") {
+	if (lastMessageText === UPDUB_COMMAND) {
 		updub(lastMessageUser)
 		lastMessageDiv.css("display", "none");
-	} else if (lastMessageText === "downdub") {
+	} else if (lastMessageText === DOWNDUB_COMMAND) {
 		downdub(lastMessageUser)
 		lastMessageDiv.css("display", "none");
 	} 
 });
 
 function updub(user) {
-	console.log(user)
 	updubs.includes(user) ? 
 		updubs.splice(updubs.indexOf(user), 1) : updubs.push(user)
 	downdubs.includes(user) && downdubs.splice(downdubs.indexOf(user), 1)
@@ -33,7 +35,6 @@ function updub(user) {
 	$('#updub').html(updubs.length)
 }
 function downdub(user) {
-	console.log(user)
 	downdubs.includes(user) ? 
 		downdubs.splice(downdubs.indexOf(user), 1) : downdubs.push(user)
 	updubs.includes(user) && updubs.splice(updubs.indexOf(user), 1)
@@ -42,13 +43,13 @@ function downdub(user) {
 }
 
 $('#updub').click(function () {
-	$('#chatline').val('updub');
+	$('#chatline').val(UPDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
 $('#downdub').click(function () {
-	$('#chatline').val('downdub');
+	$('#chatline').val(DOWNDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
