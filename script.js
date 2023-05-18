@@ -31,27 +31,6 @@ $("#currenttitle").on('DOMSubtreeModified', function() {
 	resetDubs()
 });
 
-
-function updub(user) {
-	updubs.includes(user) ? 
-		updubs.splice(updubs.indexOf(user), 1) : updubs.push(user)
-	downdubs.includes(user) && downdubs.splice(downdubs.indexOf(user), 1)
-	$('#downdub').html(downdubs.length)
-	$('#updub').html(updubs.length)
-}
-function downdub(user) {
-	downdubs.includes(user) ? 
-		downdubs.splice(downdubs.indexOf(user), 1) : downdubs.push(user)
-	updubs.includes(user) && updubs.splice(updubs.indexOf(user), 1)
-	$('#downdub').html(downdubs.length)
-	$('#updub').html(updubs.length)
-}
-
-function resetDubs() {
-	updubs = []
-	downdubs = []
-}
-
 $('#updub').click(function () {
 	$('#chatline').val(UPDUB_COMMAND);
 	var e = $.Event('keydown');
@@ -64,3 +43,27 @@ $('#downdub').click(function () {
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
+
+function updub(user) {
+	updubs.includes(user) ? 
+		updubs.splice(updubs.indexOf(user), 1) : updubs.push(user)
+	downdubs.includes(user) && downdubs.splice(downdubs.indexOf(user), 1)
+	refreshDubs()
+}
+function downdub(user) {
+	downdubs.includes(user) ? 
+		downdubs.splice(downdubs.indexOf(user), 1) : downdubs.push(user)
+	updubs.includes(user) && updubs.splice(updubs.indexOf(user), 1)
+	refreshDubs()
+}
+
+function resetDubs() {
+	updubs = []
+	downdubs = []
+	refreshDubs()
+}
+
+function refreshDubs() {
+	$('#downdub').html(downdubs.length)
+	$('#updub').html(updubs.length)
+}
