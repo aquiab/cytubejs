@@ -9,7 +9,7 @@ $("#mainpage").append(`
 `)
 
 $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
-    alert('changed');
+    console.log($("#messagebuffer").last())
 });
 
 function updub() {
