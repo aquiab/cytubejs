@@ -23,7 +23,7 @@ $("#leftcontrols").append(`
   </div>
 `)
 
-$("#messagebuffer").on('DOMSubtreeModified', function() {
+$("#messagebuffer").one('DOMSubtreeModified', function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
@@ -39,7 +39,7 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	previousLastMessageUser = lastMessageUser
 	previousLastMessageText = lastMessageText
 
-	if (isMessageHidden(lastMessageText)) lastMessageDiv.css("display", "none");
+	//if (isMessageHidden(lastMessageText)) lastMessageDiv.css("display", "none");
 	if (lastMessageText === UPDUB_COMMAND) {
 		if (lastMessageUser === currentUser) {
 			$('#updubButton').toggleClass("pressed")
