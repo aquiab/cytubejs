@@ -31,8 +31,7 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	if (previousLastMessageUser === lastMessageUser) {
 		$(this).off('DOMSubtreeModified');
 		lastMessageDiv.find(lastMessageDiv)
-		console.log(lastMessageDiv.find(".timestamp"))
-		lastMessageDiv.find(".timestamp").insertAfter(`<span><strong class="username">${lastMessageUser}: </strong></span>`)
+		(`<span><strong class="username">${lastMessageUser}: </strong></span>`).insertAfter(lastMessageDiv.find(".timestamp"))
  		$(this).on('DOMSubtreeModified', arguments.callee);
 	}
 	previousLastMessageUser = lastMessageUser
