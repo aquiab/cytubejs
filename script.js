@@ -7,7 +7,6 @@ $(document).ready(function() {
 	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide();
 });
 
-
 $("#mainpage").append(`
   <div class="dubs-wrapper">
     <div id="updub" style="color: green;"> ${updubs.length} </div>
@@ -15,7 +14,7 @@ $("#mainpage").append(`
   </div>
 `)
 
-$("body").on('DOMSubtreeModified', "#messagebuffer", function() {
+$("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
@@ -26,6 +25,10 @@ $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
 		downdub(lastMessageUser)
 		lastMessageDiv.css("display", "none");
 	} 
+});
+
+$("#currentttitle").on('DOMSubtreeModified', function() {
+	console.log("capoo")
 });
 
 function updub(user) {
