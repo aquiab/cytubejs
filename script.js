@@ -30,8 +30,8 @@ $('#updub').click(function () {
 })
 $('#downdub').click(function () {
 	downdub()
-	$('#chatline').val('updub');
-	$('#updub').html(updubs.length)
+	$('#chatline').val('downdub');
+	$('#downdub').html(downdubs.length)
 
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
