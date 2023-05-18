@@ -29,11 +29,11 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageText = lastMessageDiv.children().last().html()
 	console.log(`lastMessageUser: ${lastMessageUser}`)
 	console.log(`previousLastMessageUser: ${previousLastMessageUser}`)
-	if (previousLastMessageUser === lastMessageUser && isMessageHidden(lastMessageText)) {
+	if (previousLastMessageUser === lastMessageUser && isMessageHidden(previousLastMessageText)) {
 		$(this).off('DOMSubtreeModified');
 		$(`<span><strong class="username">${lastMessageUser}: </strong></span>`).insertAfter(lastMessageDiv.find(".timestamp"))
  		$(this).on('DOMSubtreeModified', arguments.callee);
-	} else if (previousLastMessageUser !== lastMessageUser && isMessageHidden(lastMessageText)) {
+	} else if (previousLastMessageUser !== lastMessageUser && isMessageHidden(previousLastMessageText)) {
 		lastMessageDiv.find(".username").css("display", "none");
 	}
 	previousLastMessageUser = lastMessageUser
