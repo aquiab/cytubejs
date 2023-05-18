@@ -26,7 +26,8 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
-
+	console.log(`lastMessageUser: ${lastMessageUser}`)
+	console.log(`previousLastMessageUser: ${previousLastMessageUser}`)
 	if (previousLastMessageUser === lastMessageUser) {
 		lastMessageDiv.append(`<span><strong class="username">${lastMessageUser}: </strong></span>`)
 	}
