@@ -12,12 +12,8 @@ $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
-	switch (lastMessageText) {
-		case "updub":
-			updub(lastMessageUser)
-		case "downdub":
-			downdub(lastMessageUser)
-	}
+	if (lastMessageText === "updub") updub(lastMessageUser)
+	else if (lastMessageText === "downdub") downdub(lastMessageUser)
 });
 
 function updub(user) {
