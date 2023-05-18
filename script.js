@@ -9,6 +9,8 @@ $("#mainpage").append(`
 
 $(document).ready(function() {
 	$("#messagebuffer").filter(function() {
+		console.log($(this).text())
+		console.log($(this).html())
 		return $(this).text() === "updub";
 	  }).css("display", "none");
 });
