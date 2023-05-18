@@ -25,6 +25,8 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
 	if (lastMessageText === UPDUB_COMMAND) {
+		console.log(lastMessageUser)
+		console.log(currentUser)
 		if (lastMessageUser === currentUser) {
 			$('#updubButton').toggleClass("pressed")
 			$('#downdubButton').removeClass("pressed")
