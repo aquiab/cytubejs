@@ -30,7 +30,6 @@ function downdub(user) {
 }
 
 $('#updub').click(function () {
-	updub()
 	$('#chatline').val('updub');
 	$('#updub').html(updubs.length)
 	$('#downdub').html(downdubs.length)
@@ -41,7 +40,6 @@ $('#updub').click(function () {
 	$('#chatline').trigger(e);
 })
 $('#downdub').click(function () {
-	downdub()
 	$('#chatline').val('downdub');
 	$('#downdub').html(downdubs.length)
 	$('#updub').html(updubs.length)
