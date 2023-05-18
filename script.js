@@ -7,6 +7,16 @@ $("#mainpage").append(`
   </div>
 `)
 
+$("body").on('ready', "#messagebuffer", function() {
+	var messages = $("#messagebuffer").children()
+	Array.from(messages).forEach(div => {
+		console.log(div)
+		if (div.textContent.indexOf("updub") >= 0 || div.textContent.indexOf("downdub") >= 0) {
+			div.css("display", "none");
+		}
+	})
+});
+
 $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
