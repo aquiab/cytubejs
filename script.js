@@ -9,7 +9,9 @@ $("#mainpage").append(`
 `)
 
 $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
-    console.log($("#messagebuffer").last())
+	let lastMessage = $("#messagebuffer").last()
+	console.log(lastMessage.attr("class"))
+	console.log(lastMessage.html())
 });
 
 function updub() {
