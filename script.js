@@ -28,9 +28,11 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageText = lastMessageDiv.children().last().html()
 	console.log(`lastMessageUser: ${lastMessageUser}`)
 	console.log(`previousLastMessageUser: ${previousLastMessageUser}`)
-	//if (previousLastMessageUser === lastMessageUser) {
-	//	lastMessageDiv.append(`<span><strong class="username">${lastMessageUser}: </strong></span>`)
-	//}
+	if (previousLastMessageUser === lastMessageUser) {
+		$("#messagebuffer").off('DOMSubtreeModified');
+		lastMessageDiv.append(`<span><strong class="username">${lastMessageUser}: </strong></span>`)
+ 		$(this).on('DOMSubtreeModified', arguments.callee);
+	}
 	previousLastMessageUser = lastMessageUser
 
 	if (lastMessageText === UPDUB_COMMAND) {
