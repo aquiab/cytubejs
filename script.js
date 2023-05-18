@@ -24,8 +24,6 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
 	if (lastMessageText === UPDUB_COMMAND) {
-		console.log(lastMessageUser)
-		console.log(currentUser)
 		if (lastMessageUser === currentUser) {
 			$('#updubButton').toggleClass("pressed")
 			$('#downdubButton').removeClass("pressed")
@@ -47,6 +45,7 @@ $("#currenttitle").on('DOMSubtreeModified', function() {
 });
 
 $('#updubButton').click(function () {
+	if ($('#guestlogin').length) return
 	if (!currentUser) setCurrentUser()
 	$('#chatline').val(UPDUB_COMMAND);
 	var e = $.Event('keydown');
@@ -54,6 +53,7 @@ $('#updubButton').click(function () {
 	$('#chatline').trigger(e);
 })
 $('#downdubButton').click(function () {
+	if ($('#guestlogin').length) return
 	if (!currentUser) setCurrentUser()
 	$('#chatline').val(DOWNDUB_COMMAND);
 	var e = $.Event('keydown');
