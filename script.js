@@ -48,19 +48,19 @@ $("#currenttitle").on('DOMSubtreeModified', function() {
 
 $('#updubButton').click(function () {
 	if ($('#guestlogin').is(':visible')) return
-	if (!currentUser) setCurrentUser()
 	$('#chatline').val(UPDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
+	if (!currentUser) setCurrentUser()
 })
 $('#downdubButton').click(function () {
 	if ($('#guestlogin').is(':visible')) return
-	if (!currentUser) setCurrentUser()
 	$('#chatline').val(DOWNDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
+	if (!currentUser) setCurrentUser()
 })
 
 function setCurrentUser() {
