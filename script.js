@@ -6,7 +6,8 @@ const DOWNDUB_COMMAND = "DOWNDUB"
 
 $(document).ready(function() {
 	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide()
-	currentUser = $("#welcome").text().split(',')[1].trim()
+	if ($('#welcome').length) currentUser = $("#welcome").text().split(',')[1].trim()
+	
 });
 
 $("#leftcontrols").append(`
