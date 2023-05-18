@@ -1,5 +1,6 @@
 var currentUser
 var previousLastMessageUser
+var previousLastMessageText
 var updubs = []
 var downdubs = []
 const UPDUB_COMMAND = "UPDUB"
@@ -28,12 +29,14 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageText = lastMessageDiv.children().last().html()
 	console.log(`lastMessageUser: ${lastMessageUser}`)
 	console.log(`previousLastMessageUser: ${previousLastMessageUser}`)
-	if (previousLastMessageUser === lastMessageUser) {
+	if (previousLastMessageUser === lastMessageUser && 
+		(previousLastMessageText === UPDUB_COMMAND || previousLastMessageText === DOWNDUB_COMMAND )) {
 		$(this).off('DOMSubtreeModified');
 		$(`<span><strong class="username">${lastMessageUser}: </strong></span>`).insertAfter(lastMessageDiv.find(".timestamp"))
  		$(this).on('DOMSubtreeModified', arguments.callee);
 	}
 	previousLastMessageUser = lastMessageUser
+	previousLastMessageText = lastMessageText
 
 	if (lastMessageText === UPDUB_COMMAND) {
 		console.log(`lastMessageUser: ${lastMessageUser}`)
