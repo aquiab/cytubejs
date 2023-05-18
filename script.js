@@ -27,9 +27,10 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	} 
 });
 
-$("#currentttitle").on('DOMSubtreeModified', function() {
-	console.log("capoo")
+$("#currenttitle").on('DOMSubtreeModified', function() {
+	resetDubs()
 });
+
 
 function updub(user) {
 	updubs.includes(user) ? 
@@ -44,6 +45,11 @@ function downdub(user) {
 	updubs.includes(user) && updubs.splice(updubs.indexOf(user), 1)
 	$('#downdub').html(downdubs.length)
 	$('#updub').html(updubs.length)
+}
+
+function resetDubs() {
+	updubs = []
+	downdubs = []
 }
 
 $('#updub').click(function () {
