@@ -31,7 +31,7 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	if (previousLastMessageUser === lastMessageUser) {
 		lastMessageDiv.append(`<span><strong class="username">${lastMessageUser}: </strong></span>`)
 	}
-	var previousLastMessageUser = lastMessageUser
+	previousLastMessageUser = lastMessageUser
 
 	if (lastMessageText === UPDUB_COMMAND) {
 		console.log(`lastMessageUser: ${lastMessageUser}`)
