@@ -14,6 +14,7 @@ $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
 	var lastMessageText = lastMessageDiv.children().last().html()
 	if (lastMessageText === "updub") updub(lastMessageUser)
 	else if (lastMessageText === "downdub") downdub(lastMessageUser)
+	
 });
 
 function updub(user) {
@@ -21,29 +22,26 @@ function updub(user) {
 	updubs.includes(user) ? 
 		updubs.splice(updubs.indexOf(user), 1) : updubs.push(user)
 	downdubs.includes(user) && downdubs.splice(downdubs.indexOf(user), 1)
+	$('#downdub').html(downdubs.length)
+	$('#updub').html(updubs.length)
 }
 function downdub(user) {
 	console.log(user)
 	downdubs.includes(user) ? 
 		downdubs.splice(downdubs.indexOf(user), 1) : downdubs.push(user)
 	updubs.includes(user) && updubs.splice(updubs.indexOf(user), 1)
+	$('#downdub').html(downdubs.length)
+	$('#updub').html(updubs.length)
 }
 
 $('#updub').click(function () {
 	$('#chatline').val('updub');
-	$('#updub').html(updubs.length)
-	$('#downdub').html(downdubs.length)
-	
-
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
 $('#downdub').click(function () {
 	$('#chatline').val('downdub');
-	$('#downdub').html(downdubs.length)
-	$('#updub').html(updubs.length)
-
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
