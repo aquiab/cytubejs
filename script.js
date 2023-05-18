@@ -9,20 +9,26 @@ $("#mainpage").append(`
 `)
 
 $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
-	let lastMessage = $("#messagebuffer:last-child")
-	console.log(lastMessage.attr("class"))
-	console.log(lastMessage.html())
+	var lastMessageDiv = $("#messagebuffer").children().last()
+	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
+	var lastMessageText = lastMessageDiv.children().last().html()
+	switch (lastMessageText) {
+		case "updub":
+			updub(lastMessageUser)
+		case "downdub":
+			downdub(lastMessageUser)
+	}
 });
 
-function updub() {
-	updubs.includes(currentUser) ? 
-		updubs.splice(updubs.indexOf(currentUser), 1) : updubs.push(currentUser)
-	downdubs.includes(currentUser) && downdubs.splice(downdubs.indexOf(currentUser), 1)
+function updub(user) {
+	updubs.includes(user) ? 
+		updubs.splice(updubs.indexOf(user), 1) : updubs.push(user)
+	downdubs.includes(user) && downdubs.splice(downdubs.indexOf(user), 1)
 }
-function downdub() {
-	downdubs.includes(currentUser) ? 
-		downdubs.splice(downdubs.indexOf(currentUser), 1) : downdubs.push(currentUser)
-	updubs.includes(currentUser) && updubs.splice(updubs.indexOf(currentUser), 1)
+function downdub(user) {
+	downdubs.includes(user) ? 
+		downdubs.splice(downdubs.indexOf(user), 1) : downdubs.push(user)
+	updubs.includes(user) && updubs.splice(updubs.indexOf(user), 1)
 }
 
 $('#updub').click(function () {
