@@ -8,7 +8,7 @@ $(document).ready(function() {
 });
 
 $("#leftcontrols").append(`
-  <div class="dubs-wrapper">
+  <span class="dubs-wrapper">
     <div class="dub-button btn btn-md btn-default" id="updub"> 
 		${updubs.length} 
 	</div>
