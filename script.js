@@ -11,9 +11,13 @@ $("body").on('DOMSubtreeModified', "#messagebuffer", function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
-	if (lastMessageText === "updub") updub(lastMessageUser)
-	else if (lastMessageText === "downdub") downdub(lastMessageUser)
-	
+	if (lastMessageText === "updub") {
+		updub(lastMessageUser)
+		lastMessageDiv.css("display", "none");
+	} else if (lastMessageText === "downdub") {
+		downdub(lastMessageUser)
+		lastMessageDiv.css("display", "none");
+	} 
 });
 
 function updub(user) {
