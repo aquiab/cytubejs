@@ -8,21 +8,32 @@ $("#mainpage").append(`
   </div>
 `);
 
-function vote() {
+function updub() {
 	updubs.includes(currentUser) ? 
 		updubs.splice(updubs.indexOf(currentUser), 1) : updubs.push(currentUser)
+	downdubs.includes(currentUser) && downdubs.splice(downdubs.indexOf(currentUser), 1)
+}
+function downdub() {
+	downdubs.includes(currentUser) ? 
+		downdubs.splice(downdubs.indexOf(currentUser), 1) : downdubs.push(currentUser)
+	updubs.includes(currentUser) && updubs.splice(updubs.indexOf(currentUser), 1)
 }
 
 $('#updub').click(function () {
-	vote()
+	updub()
 	$('#chatline').val('updub');
 	$('#updub').html(updubs.length)
-	alert(updubs.length)
 
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
 $('#downdub').click(function () {
-	$('#downdub').html(downdubs.length)
+	downdub()
+	$('#chatline').val('updub');
+	$('#updub').html(updubs.length)
+
+	var e = $.Event('keydown');
+	e.keyCode = 13; // Enter key
+	$('#chatline').trigger(e);
 })
