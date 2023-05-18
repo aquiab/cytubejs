@@ -1,3 +1,4 @@
+var currentUser
 var updubs = []
 var downdubs = []
 const UPDUB_COMMAND = "UPDUB"
@@ -23,9 +24,17 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
 	if (lastMessageText === UPDUB_COMMAND) {
+		if (lastMessageUser === currentUser) {
+			$('#updubButton').toggleClass("pressed")
+			$('#downdubButton').removeClass("pressed")
+		}
 		updub(lastMessageUser)
 		lastMessageDiv.css("display", "none");
 	} else if (lastMessageText === DOWNDUB_COMMAND) {
+		if (lastMessageUser === currentUser) {
+			$('#downdubButton').toggleClass("pressed")
+			$('#updubButton').removeClass("pressed")
+		}
 		downdub(lastMessageUser)
 		lastMessageDiv.css("display", "none");
 	} 
@@ -36,26 +45,31 @@ $("#currenttitle").on('DOMSubtreeModified', function() {
 });
 
 $('#updubButton').click(function () {
+	if (!currentUser) setCurrentUser()
 	$('#chatline').val(UPDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
 $('#downdubButton').click(function () {
+	if (!currentUser) setCurrentUser()
 	$('#chatline').val(DOWNDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
 
+function setCurrentUser() {
+	var lastMessageDiv = $("#messagebuffer").children().last()
+	currentUser = lastMessageDiv.attr("class").split('-')[2]
+}
+
 function updub(user) {
 	updubs.includes(user) ? 
 		updubs.splice(updubs.indexOf(user), 1) : updubs.push(user)
 	if (downdubs.includes(user)) {
 		downdubs.splice(downdubs.indexOf(user), 1)
-		$('#downdubButton').toggleClass("pressed")
 	}
-	$('#updubButton').toggleClass("pressed")
 	refreshDubs()
 }
 function downdub(user) {
@@ -63,9 +77,7 @@ function downdub(user) {
 		downdubs.splice(downdubs.indexOf(user), 1) : downdubs.push(user)
 	if (updubs.includes(user)) {
 		updubs.splice(updubs.indexOf(user), 1)
-		$('#updubButton').toggleClass("pressed")
 	}
-	$('#downdubButton').toggleClass("pressed")
 	refreshDubs()
 }
 
@@ -80,5 +92,4 @@ function resetDubs() {
 function refreshDubs() {
 	$('#downdubButton').html(downdubs.length)
 	$('#updubButton').html(updubs.length)
-
 }
