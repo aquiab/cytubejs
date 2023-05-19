@@ -1,6 +1,7 @@
 var currentUser
 var previousLastMessageUser
 var previousLastMessageText
+var lastVisibleUser
 var updubs = []
 var downdubs = []
 const UPDUB_COMMAND = "UPDUB"
@@ -32,19 +33,19 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	if (!isChatMessage) return
 	if ($("#messagebuffer").children().length > 100) return
 	
-	//console.log(`lastMessageUser: ${lastMessageUser}`)
-	//console.log(`previousLastMessageUser: ${previousLastMessageUser}`)
-	if (previousLastMessageUser === lastMessageUser && isMessageHidden(previousLastMessageText)) {
+	if (lastVisibleUser === lastMessageUser && isMessageHidden(previousLastMessageText)) {
 		$(this).off('DOMSubtreeModified');
 		$(`<span><strong class="username">${lastMessageUser}: </strong></span>`).insertAfter(lastMessageDiv.find(".timestamp"))
  		$(this).on('DOMSubtreeModified', arguments.callee);
-	} else if (previousLastMessageUser !== lastMessageUser && isMessageHidden(previousLastMessageText)) {
+	} else if (lastVisibleUser !== lastMessageUser && isMessageHidden(previousLastMessageText) && lastVisibleUser !== lastMessageUser) {
 		lastMessageDiv.find(".username").css("display", "none");
 	}
 	previousLastMessageUser = lastMessageUser
 	previousLastMessageText = lastMessageText
 
-	if (isMessageHidden(lastMessageText)) lastMessageDiv.css("display", "none");
+	if (isMessageHidden(lastMessageText)) lastMessageDiv.css("display", "none")
+	else lastVisibleUser = lastMessageUser
+
 	if (lastMessageText === UPDUB_COMMAND) {
 		if (lastMessageUser === currentUser) {
 			$('#updubButton').toggleClass("pressed")
@@ -57,7 +58,7 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 			$('#updubButton').removeClass("pressed")
 		}
 		downdub(lastMessageUser)
-	} 
+	}
 });
 
 $("#currenttitle").on('DOMSubtreeModified', function() {
