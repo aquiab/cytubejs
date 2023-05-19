@@ -10,7 +10,10 @@ const DOWNDUB_COMMAND = "DOWNDUB"
 $(document).ready(function() {
 	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide()
 	if ($('#welcome').length) currentUser = $("#welcome").text().split(',')[1].trim()
-	
+	var lastMessageDiv = $("#messagebuffer").children().last()
+	if (lastMessageDiv) {
+		lastVisibleUser = lastMessageDiv.attr("class").split('-')[2]
+	}
 });
 
 $("#leftcontrols").append(`
