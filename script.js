@@ -24,13 +24,14 @@ $("#leftcontrols").append(`
 `)
 
 $("#messagebuffer").on('DOMSubtreeModified', function() {
+	var lastMessageDiv = $("#messagebuffer").children().last()
+	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
+	var lastMessageText = lastMessageDiv.children().last().html()
+
 	var isChatMessage = lastMessageDiv.attr("class").split('-')[0] === "chat"
 	if (!isChatMessage) return
 	if ($("#messagebuffer").children().length > 100) return
 	
-	var lastMessageDiv = $("#messagebuffer").children().last()
-	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
-	var lastMessageText = lastMessageDiv.children().last().html()
 	//console.log(`lastMessageUser: ${lastMessageUser}`)
 	//console.log(`previousLastMessageUser: ${previousLastMessageUser}`)
 	if (previousLastMessageUser === lastMessageUser && isMessageHidden(previousLastMessageText)) {
