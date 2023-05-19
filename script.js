@@ -23,31 +23,16 @@ $("#leftcontrols").append(`
   </div>
 `)
 
-const targetNode = $("#messagebuffer")
-const config = { attributes: true, childList: true, subtree: true };
-
-const callback = (mutationList, observer) => {
-  for (const mutation of mutationList) {
-    if (mutation.type === "childList") {
-      console.log("A child node has been added or removed.");
-    } else if (mutation.type === "attributes") {
-      console.log(`The ${mutation.attributeName} attribute was modified.`);
-    }
-  }
-};
-
-// Create an observer instance linked to the callback function
-const observer = new MutationObserver(callback);
-
-// Start observing the target node for configured mutations
-observer.observe(targetNode, config);
-
 $("#messagebuffer").on('DOMSubtreeModified', function() {
+	var isChatMessage = lastMessageDiv.attr("class").split('-')[0] === "chat"
+	if (!isChatMessage) return
+	if ($("#messagebuffer").children().length > 100) return
+	
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
-	console.log(`lastMessageUser: ${lastMessageUser}`)
-	console.log(`previousLastMessageUser: ${previousLastMessageUser}`)
+	//console.log(`lastMessageUser: ${lastMessageUser}`)
+	//console.log(`previousLastMessageUser: ${previousLastMessageUser}`)
 	if (previousLastMessageUser === lastMessageUser && isMessageHidden(previousLastMessageText)) {
 		$(this).off('DOMSubtreeModified');
 		$(`<span><strong class="username">${lastMessageUser}: </strong></span>`).insertAfter(lastMessageDiv.find(".timestamp"))
@@ -58,7 +43,7 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	previousLastMessageUser = lastMessageUser
 	previousLastMessageText = lastMessageText
 
-	//if (isMessageHidden(lastMessageText)) lastMessageDiv.css("display", "none");
+	if (isMessageHidden(lastMessageText)) lastMessageDiv.css("display", "none");
 	if (lastMessageText === UPDUB_COMMAND) {
 		if (lastMessageUser === currentUser) {
 			$('#updubButton').toggleClass("pressed")
