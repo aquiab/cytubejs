@@ -33,11 +33,15 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	if (!isChatMessage) return
 	if ($("#messagebuffer").children().length > 100) return
 	
-	if (lastVisibleUser === lastMessageUser && isMessageHidden(previousLastMessageText)) {
+	if (lastVisibleUser !== lastMessageUser && 
+		isMessageHidden(previousLastMessageText) && 
+		previousLastMessageUser === lastMessageUser) {
 		$(this).off('DOMSubtreeModified');
 		$(`<span><strong class="username">${lastMessageUser}: </strong></span>`).insertAfter(lastMessageDiv.find(".timestamp"))
  		$(this).on('DOMSubtreeModified', arguments.callee);
-	} else if (lastVisibleUser !== lastMessageUser && isMessageHidden(previousLastMessageText) && lastVisibleUser !== lastMessageUser) {
+	} else if (lastVisibleUser === lastMessageUser && 
+			   isMessageHidden(previousLastMessageText) && 
+			  previousLastMessageUser !== lastMessageUser) {
 		lastMessageDiv.find(".username").css("display", "none");
 	}
 	previousLastMessageUser = lastMessageUser
