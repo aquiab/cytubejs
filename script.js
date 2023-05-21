@@ -6,6 +6,7 @@ var updubs = []
 var downdubs = []
 const UPDUB_COMMAND = "UPDUB"
 const DOWNDUB_COMMAND = "DOWNDUB"
+const NO_VIDEO_PLAYING = "Nothing Playing"
 
 $(document).ready(function() {
 	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide()
@@ -33,8 +34,7 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageText = lastMessageDiv.children().last().html()
 
 	var isChatMessage = lastMessageDiv.attr("class").split('-')[0] === "chat"
-	if (!isChatMessage) return
-	if ($("#messagebuffer").children().length > 100) return
+	if (!isChatMessage || $("#currenttitle").text() === NO_VIDEO_PLAYING || $("#messagebuffer").children().length > 100) return
 	
 	if (lastVisibleUser !== lastMessageUser && 
 		isMessageHidden(previousLastMessageText) && 
