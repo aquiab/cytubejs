@@ -34,7 +34,7 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageText = lastMessageDiv.children().last().html()
 
 	var isChatMessage = lastMessageDiv.attr("class").split('-')[0] === "chat"
-	if (!isChatMessage || $("#currenttitle").text() === NO_VIDEO_PLAYING || $("#messagebuffer").children().length > 100) return
+	if (!isChatMessage || $("#messagebuffer").children().length > 100) return
 	
 	if (lastVisibleUser !== lastMessageUser && 
 		isMessageHidden(previousLastMessageText) && 
@@ -73,14 +73,14 @@ $("#currenttitle").on('DOMSubtreeModified', function() {
 });
 
 $('#updubButton').click(function () {
-	if ($('#guestlogin').is(':visible')) return
+	if ($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING) return
 	$('#chatline').val(UPDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
 $('#downdubButton').click(function () {
-	if ($('#guestlogin').is(':visible')) return
+	if ($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING) return
 	$('#chatline').val(DOWNDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
