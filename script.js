@@ -9,6 +9,17 @@ const DOWNDUB_COMMAND = "DOWNDUB"
 const NO_VIDEO_PLAYING = "Nothing Playing"
 
 $(document).ready(function() {
+	$("#leftcontrols").append(`
+  	<span class="dubs-wrapper">
+    	<div class="dub-button btn btn-sm btn-default" id="updubButton"> 
+			${updubs.length} 
+		</div>
+    	<div class="dub-button btn btn-sm btn-default" id="downdubButton"> 
+			${downdubs.length} 
+		</div>
+  	</div>
+  	</span>
+	`)
 	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide()
 	if ($('#welcome').length) currentUser = $("#welcome").text().split(',')[1].trim()
 	var lastMessageDiv = $("#messagebuffer").children().last()
@@ -17,17 +28,6 @@ $(document).ready(function() {
 	}
 	enableOrDisableButtons()
 });
-
-$("#leftcontrols").append(`
-  <span class="dubs-wrapper">
-    <div class="dub-button btn btn-sm btn-default" id="updubButton"> 
-		${updubs.length} 
-	</div>
-    <div class="dub-button btn btn-sm btn-default" id="downdubButton"> 
-		${downdubs.length} 
-	</div>
-  </div>
-`)
 
 $("#messagebuffer").on('DOMSubtreeModified', function() {
 	var lastMessageDiv = $("#messagebuffer").children().last()
@@ -120,7 +120,6 @@ function refreshDubs() {
 }
 
 function enableOrDisableButtons() {
-	console.log($("#currenttitle").text())
 	if ($("#currenttitle").text() === NO_VIDEO_PLAYING) {
 		$('#downdubButton').addClass("disabled")
 		$('#updubButton').addClass("disabled")
