@@ -120,6 +120,7 @@ function refreshDubs() {
 }
 
 function enableOrDisableButtons() {
+	console.log($("#currenttitle").text())
 	if ($("#currenttitle").text() === NO_VIDEO_PLAYING) {
 		$('#downdubButton').addClass("disabled")
 		$('#updubButton').addClass("disabled")
