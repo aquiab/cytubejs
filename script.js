@@ -15,6 +15,7 @@ $(document).ready(function() {
 	if (lastMessageDiv) {
 		lastVisibleUser = lastMessageDiv.attr("class").split('-')[2]
 	}
+	enableOrDisableButtons()
 });
 
 $("#leftcontrols").append(`
@@ -69,13 +70,7 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 });
 
 $("#currenttitle").on('DOMSubtreeModified', function() {
-	if ($("#currenttitle").text() === NO_VIDEO_PLAYING) {
-		$('#downdubButton').addClass("disabled")
-		$('#updubButton').addClass("disabled")
-	} else {
-		$('#downdubButton').removeClass("disabled")
-		$('#updubButton').removeClass("disabled")
-	}
+	enableOrDisableButtons()
 	resetDubs()
 });
 
@@ -122,6 +117,16 @@ function resetDubs() {
 function refreshDubs() {
 	$('#downdubButton').html(downdubs.length)
 	$('#updubButton').html(updubs.length)
+}
+
+function enableOrDisableButtons() {
+	if ($("#currenttitle").text() === NO_VIDEO_PLAYING) {
+		$('#downdubButton').addClass("disabled")
+		$('#updubButton').addClass("disabled")
+	} else {
+		$('#downdubButton').removeClass("disabled")
+		$('#updubButton').removeClass("disabled")
+	}
 }
 
 const isMessageHidden = (message) => message === UPDUB_COMMAND || message === DOWNDUB_COMMAND
