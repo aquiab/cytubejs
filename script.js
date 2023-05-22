@@ -69,6 +69,13 @@ $("#messagebuffer").on('DOMSubtreeModified', function() {
 });
 
 $("#currenttitle").on('DOMSubtreeModified', function() {
+	if ($("#currenttitle").text() === NO_VIDEO_PLAYING) {
+		$('#downdubButton').addClass("disabled")
+		$('#updubButton').addClass("disabled")
+	} else {
+		$('#downdubButton').removeClass("disabled")
+		$('#updubButton').removeClass("disabled")
+	}
 	resetDubs()
 });
 
