@@ -8,7 +8,7 @@ const UPDUB_COMMAND = "UPDUB"
 const DOWNDUB_COMMAND = "DOWNDUB"
 const NO_VIDEO_PLAYING = "Nothing Playing"
 
-document.ready(function() {
+document.addEventListener("DOMContentLoaded", function() {
 	document.getElementById("leftcontrols").append(`
   	<span class="dubs-wrapper">
     	<div class="dub-button btn btn-sm btn-default" id="updubButton"> 
