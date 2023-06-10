@@ -1,15 +1,18 @@
-let currentUser
-let previousLastMessageUser
-let previousLastMessageText
-let lastVisibleUser
-let updubs = []
-let downdubs = []
+var script = document.createElement('script');
+script.src = 'https://code.jquery.com/jquery-3.7.0.min.js'; // Check https://jquery.com/ for the current version
+document.getElementsByTagName('head')[0].appendChild(script);
+var currentUser
+var previousLastMessageUser
+var previousLastMessageText
+var lastVisibleUser
+var updubs = []
+var downdubs = []
 const UPDUB_COMMAND = "UPDUB"
 const DOWNDUB_COMMAND = "DOWNDUB"
 const NO_VIDEO_PLAYING = "Nothing Playing"
 
-document.addEventListener("DOMContentLoaded", function() {
-	document.getElementById("leftcontrols").append(`
+$(document).ready(function() {
+	$("#leftcontrols").append(`
   	<span class="dubs-wrapper">
     	<div class="dub-button btn btn-sm btn-default" id="updubButton"> 
 			${updubs.length} 
@@ -20,29 +23,29 @@ document.addEventListener("DOMContentLoaded", function() {
   	</div>
   	</span>
 	`)
-	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().style.display = "none"
-	if (document.getElementById("welcome").length) currentUser = document.getElementById("welcome").innerText.split(',')[1].trim()
-	let lastMessageDiv = document.getElementById("messagebuffer").children().last()
+	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide()
+	if ($('#welcome').length) currentUser = $("#welcome").text().split(',')[1].trim()
+	var lastMessageDiv = $("#messagebuffer").children().last()
 	if (lastMessageDiv) {
 		lastVisibleUser = lastMessageDiv.attr("class").split('-')[2]
 	}
 	enableOrDisableButtons()
 });
 
-document.getElementById("messagebuffer").addEventListener('DOMSubtreeModified', (e) => {
-	let lastMessageDiv = document.getElementById("messagebuffer").children().last()
-	let lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
-	let lastMessageText = lastMessageDiv.children().last().innerHTML
+$("#messagebuffer").on('DOMSubtreeModified', function() {
+	var lastMessageDiv = $("#messagebuffer").children().last()
+	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
+	var lastMessageText = lastMessageDiv.children().last().html()
 
-	let isChatMessage = lastMessageDiv.attr("class").split('-')[0] === "chat"
-	if (!isChatMessage || document.getElementById("messagebuffer").children().length > 100) return
+	var isChatMessage = lastMessageDiv.attr("class").split('-')[0] === "chat"
+	if (!isChatMessage || $("#messagebuffer").children().length > 100) return
 	
 	if (lastVisibleUser !== lastMessageUser && 
 		isMessageHidden(previousLastMessageText) && 
 		previousLastMessageUser === lastMessageUser) {
-		this.off('DOMSubtreeModified');
+		$(this).off('DOMSubtreeModified');
 		$(`<span><strong class="username">${lastMessageUser}: </strong></span>`).insertAfter(lastMessageDiv.find(".timestamp"))
- 		this.on('DOMSubtreeModified', arguments.callee);
+ 		$(this).on('DOMSubtreeModified', arguments.callee);
 	} else if (lastVisibleUser === lastMessageUser && 
 			   isMessageHidden(previousLastMessageText) && 
 			  previousLastMessageUser !== lastMessageUser) {
@@ -56,37 +59,37 @@ document.getElementById("messagebuffer").addEventListener('DOMSubtreeModified', 
 
 	if (lastMessageText === UPDUB_COMMAND) {
 		if (lastMessageUser === currentUser) {
-			document.getElementById("updubButton").classList.toggle("pressed")
-			document.getElementById("downdubButton").classList.remove("pressed")
+			$('#updubButton').toggleClass("pressed")
+			$('#downdubButton').removeClass("pressed")
 		}
 		updub(lastMessageUser)
 	} else if (lastMessageText === DOWNDUB_COMMAND) {
 		if (lastMessageUser === currentUser) {
-			document.getElementById("downdubButton").classList.toggle("pressed")
-			document.getElementById("updubButton").classList.remove("pressed")
+			$('#downdubButton').toggleClass("pressed")
+			$('#updubButton').removeClass("pressed")
 		}
 		downdub(lastMessageUser)
 	}
 });
 
-document.getElementById("currenttitle").addEventListener('DOMSubtreeModified', (e) => {
+$("#currenttitle").on('DOMSubtreeModified', function() {
 	enableOrDisableButtons()
 	resetDubs()
 });
 
-document.getElementById("updubButton").click(function () {
-	if (document.getElementById("guestlogin").is(':visible') || document.getElementById("currenttitle").innerText === NO_VIDEO_PLAYING) return
-	document.getElementById("chatline").value = UPDUB_COMMAND;
-	let e = $.Event('keydown');
-	e.keyCode = 13; 
-	document.getElementById("chatline").trigger(e);
+$('#updubButton').click(function () {
+	if ($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING) return
+	$('#chatline').val(UPDUB_COMMAND);
+	var e = $.Event('keydown');
+	e.keyCode = 13; // Enter key
+	$('#chatline').trigger(e);
 })
-document.getElementById("downdubButton").click(function () {
-	if (document.getElementById("guestlogin").is(':visible') || document.getElementById("currenttitle").innerText === NO_VIDEO_PLAYING) return
-	document.getElementById("chatline").value = DOWNDUB_COMMAND;
-	let e = $.Event('keydown');
-	e.keyCode = 13; 
-	document.getElementById("chatline").trigger(e);
+$('#downdubButton').click(function () {
+	if ($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING) return
+	$('#chatline').val(DOWNDUB_COMMAND);
+	var e = $.Event('keydown');
+	e.keyCode = 13; // Enter key
+	$('#chatline').trigger(e);
 })
 
 function updub(user) {
@@ -110,22 +113,22 @@ function resetDubs() {
 	updubs = []
 	downdubs = []
 	refreshDubs()
-	document.getElementById("downdubButton").classList.remove("pressed")
-	document.getElementById("updubButton").classList.remove("pressed")
+	$('#downdubButton').removeClass("pressed")
+	$('#updubButton').removeClass("pressed")
 }
 
 function refreshDubs() {
-	document.getElementById("downdubButton").innerHTML = downdubs.length
-	document.getElementById("updubButton").innerHTML = updubs.length
+	$('#downdubButton').html(downdubs.length)
+	$('#updubButton').html(updubs.length)
 }
 
 function enableOrDisableButtons() {
-	if (document.getElementById("currenttitle").innerText === NO_VIDEO_PLAYING) {
-		document.getElementById("downdubButton").classList.add("disabled")
-		document.getElementById("updubButton").classList.add("disabled")
+	if ($("#currenttitle").text() === NO_VIDEO_PLAYING) {
+		$('#downdubButton').addClass("disabled")
+		$('#updubButton').addClass("disabled")
 	} else {
-		document.getElementById("downdubButton").classList.remove("disabled")
-		document.getElementById("updubButton").classList.remove("disabled")
+		$('#downdubButton').removeClass("disabled")
+		$('#updubButton').removeClass("disabled")
 	}
 }
 
