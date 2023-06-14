@@ -9,7 +9,7 @@ const DOWNDUB_COMMAND = "DOWNDUB"
 const NO_VIDEO_PLAYING = "Nothing Playing"
 const SERVER_USER = "[server]"
 
-const isDubsList = msg => msg.includes('"updubs:"') && msg.includes('"downdubs:"')
+const isDubsList = msg => msg && msg.includes('"updubs:"') && msg.includes('"downdubs:"')
 const isMessageHidden = msg => msg === UPDUB_COMMAND || msg === DOWNDUB_COMMAND || isDubsList(msg)
 const isVotingNotPossible = () => (($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING))
 const isNewUserLogin = (msg, user) => (user === SERVER_USER && msg.includes("joined"))
