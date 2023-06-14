@@ -21,7 +21,6 @@ $(document).ready(function() {
   	</span>
 	`)
 	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide()
-	if ($('#welcome').length) currentUser = $("#welcome").text().split(',')[1].trim()
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	if (lastMessageDiv) {
 		lastVisibleUser = lastMessageDiv.attr("class").split('-')[2]
@@ -29,28 +28,29 @@ $(document).ready(function() {
 	enableOrDisableButtons()
 });
 
+socket.on("login", ({ success, name }) => {
+	if (success) currentUser = name
+})
+
 socket.on("chatMsg", ({ msg, username }) => {
 	console.log(msg)
 	console.log(username)
-	handleDubbing(msg, username)
-	handleHidingOrAddingUsernamesToChat(msg, username)
+    handleStylingMessages(msg, username)
+    if (isVotingPossible()) handleDubbing(msg, username)
 })
 
-
-$("#currenttitle").on('DOMSubtreeModified', function() {
-	enableOrDisableButtons()
+socket.on("changeMedia", () => {
+    enableOrDisableButtons()
 	resetDubs()
-});
+})
 
 $('#updubButton').click(function () {
-	if ($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING) return
 	$('#chatline').val(UPDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
 })
 $('#downdubButton').click(function () {
-	if ($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING) return
 	$('#chatline').val(DOWNDUB_COMMAND);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
@@ -63,7 +63,6 @@ function updub(user) {
 	if (downdubs.includes(user)) {
 		downdubs.splice(downdubs.indexOf(user), 1)
 	}
-	refreshDubs()
 }
 function downdub(user) {
 	downdubs.includes(user) ? 
@@ -71,7 +70,6 @@ function downdub(user) {
 	if (updubs.includes(user)) {
 		updubs.splice(updubs.indexOf(user), 1)
 	}
-	refreshDubs()
 }
 
 function resetDubs() {
@@ -101,9 +99,10 @@ function handleDubbing(msg, username) {
 		}
 		downdub(username)
 	}
+    refreshDubs()
 }
 
-function handleHidingOrAddingUsernamesToChat(msg, username) {
+function handleStylingMessages(msg, username) {
 	var lastMessageDiv = $("#messagebuffer").children().last()
 
 	if (lastVisibleUser !== username && 
@@ -123,7 +122,7 @@ function handleHidingOrAddingUsernamesToChat(msg, username) {
 }
 
 function enableOrDisableButtons() {
-	if ($("#currenttitle").text() === NO_VIDEO_PLAYING) {
+	if (isVotingPossible()) {
 		$('#downdubButton').addClass("disabled")
 		$('#updubButton').addClass("disabled")
 	} else {
@@ -133,3 +132,4 @@ function enableOrDisableButtons() {
 }
 
 const isMessageHidden = (message) => message === UPDUB_COMMAND || message === DOWNDUB_COMMAND
+const isVotingPossible = () => ($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING)
