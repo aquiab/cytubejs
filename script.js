@@ -7,9 +7,11 @@ var downdubs = []
 const UPDUB_COMMAND = "UPDUB"
 const DOWNDUB_COMMAND = "DOWNDUB"
 const NO_VIDEO_PLAYING = "Nothing Playing"
+const SERVER_USER = "[server]"
 
 const isMessageHidden = (message) => message === UPDUB_COMMAND || message === DOWNDUB_COMMAND
 const isVotingNotPossible = () => (($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING))
+const isNewUserLogin = (message, user) => (user === SERVER_USER && message.includes("joined"))
 
 $(document).ready(function() {
 	$("#leftcontrols").append(`
@@ -42,6 +44,7 @@ socket.on("chatMsg", ({ msg, username }) => {
 	console.log(username)
     handleStylingMessages(msg, username)
     if (!isVotingNotPossible()) handleDubbing(msg, username)
+	if (isNewUserLogin) sendMessage(updubs)
 })
 
 socket.on("changeMedia", () => {
@@ -49,18 +52,15 @@ socket.on("changeMedia", () => {
 	resetDubs()
 })
 
-$('#updubButton').click(function () {
-	$('#chatline').val(UPDUB_COMMAND);
+$('#updubButton').click(() => sendMessage(UPDUB_COMMAND))
+$('#downdubButton').click(() => sendMessage(DOWNDUB_COMMAND))
+
+function sendMessage(message) {
+	$('#chatline').val(message);
 	var e = $.Event('keydown');
 	e.keyCode = 13; // Enter key
 	$('#chatline').trigger(e);
-})
-$('#downdubButton').click(function () {
-	$('#chatline').val(DOWNDUB_COMMAND);
-	var e = $.Event('keydown');
-	e.keyCode = 13; // Enter key
-	$('#chatline').trigger(e);
-})
+}
 
 function updub(user) {
 	updubs.includes(user) ? 
