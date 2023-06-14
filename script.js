@@ -9,7 +9,7 @@ const DOWNDUB_COMMAND = "DOWNDUB"
 const NO_VIDEO_PLAYING = "Nothing Playing"
 
 const isMessageHidden = (message) => message === UPDUB_COMMAND || message === DOWNDUB_COMMAND
-const isVotingPossible = () => (!($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING))
+const isVotingNotPossible = () => (($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING))
 
 $(document).ready(function() {
 	$("#leftcontrols").append(`
@@ -39,7 +39,7 @@ socket.on("chatMsg", ({ msg, username }) => {
 	console.log(msg)
 	console.log(username)
     handleStylingMessages(msg, username)
-    if (isVotingPossible()) handleDubbing(msg, username)
+    if (!isVotingNotPossible()) handleDubbing(msg, username)
 })
 
 socket.on("changeMedia", () => {
@@ -125,7 +125,7 @@ function handleStylingMessages(msg, username) {
 }
 
 function enableOrDisableButtons() {
-	if (isVotingPossible()) {
+	if (isVotingNotPossible()) {
 		$('#downdubButton').addClass("disabled")
 		$('#updubButton').addClass("disabled")
 	} else {
