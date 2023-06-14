@@ -32,6 +32,20 @@ $(document).ready(function() {
 socket.on("chatMsg", (res) => {
 	console.log(res.msg)
 	console.log(res.username)
+	let user = res.username
+	if (lastMessageText === UPDUB_COMMAND) {
+		if (user === currentUser) {
+			$('#updubButton').toggleClass("pressed")
+			$('#downdubButton').removeClass("pressed")
+		}
+		updub(user)
+	} else if (lastMessageText === DOWNDUB_COMMAND) {
+		if (user === currentUser) {
+			$('#downdubButton').toggleClass("pressed")
+			$('#updubButton').removeClass("pressed")
+		}
+		downdub(user)
+	}
 }) 
 
 $("#messagebuffer").on('DOMSubtreeModified', function(e) {
