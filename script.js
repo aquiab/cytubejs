@@ -29,9 +29,13 @@ $(document).ready(function() {
 	enableOrDisableButtons()
 });
 
+socket.on("chatMsg", (res) => {
+	console.log(res.msg)
+	console.log(res.username)
+}) 
+
 $("#messagebuffer").on('DOMSubtreeModified', function(e) {
 	if(e.target.id !== "#messagebuffer") return
-	console.log($("#messagebuffer").children().length)
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
