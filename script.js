@@ -8,6 +8,9 @@ const UPDUB_COMMAND = "UPDUB"
 const DOWNDUB_COMMAND = "DOWNDUB"
 const NO_VIDEO_PLAYING = "Nothing Playing"
 
+const isMessageHidden = (message) => message === UPDUB_COMMAND || message === DOWNDUB_COMMAND
+const isVotingPossible = () => ($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING)
+
 $(document).ready(function() {
 	$("#leftcontrols").append(`
   	<span class="dubs-wrapper">
@@ -130,6 +133,3 @@ function enableOrDisableButtons() {
 		$('#updubButton').removeClass("disabled")
 	}
 }
-
-const isMessageHidden = (message) => message === UPDUB_COMMAND || message === DOWNDUB_COMMAND
-const isVotingPossible = () => ($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING)
