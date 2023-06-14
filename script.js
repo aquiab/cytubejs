@@ -29,7 +29,8 @@ $(document).ready(function() {
 	enableOrDisableButtons()
 });
 
-$("#messagebuffer").on('DOMSubtreeModified', function() {
+$("#messagebuffer").on('DOMSubtreeModified', function(e) {
+	if(e.target.id !== "#messagebuffer") return
 	console.log($("#messagebuffer").children().length)
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
