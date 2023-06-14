@@ -30,6 +30,7 @@ $(document).ready(function() {
 });
 
 $("#messagebuffer").on('DOMSubtreeModified', function() {
+	console.log($("#messagebuffer").children().length)
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
 	var lastMessageText = lastMessageDiv.children().last().html()
