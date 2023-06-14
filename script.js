@@ -128,5 +128,5 @@ function handleDubsJsonMessage(msg) {
 
 function enableOrDisableButtons() {
 	$('#downdubButton').toggleClass("disabled", isVotingNotPossible())
-	$('#updubButton').addClass("disabled", isVotingNotPossible())
+	$('#updubButton').toggleClass("disabled", isVotingNotPossible())
 }
