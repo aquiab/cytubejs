@@ -9,8 +9,8 @@ const DOWNDUB_COMMAND = "DOWNDUB"
 const NO_VIDEO_PLAYING = "Nothing Playing"
 const SERVER_USER = "[server]"
 
-const isDubsList = (msg) => (msg.includes('"updubs:"') && msg.includes('"downdubs:"'))
-const isMessageHidden = (msg) => msg === UPDUB_COMMAND || msg === DOWNDUB_COMMAND || isDubsList(msg)
+const isDubsList = msg => msg.includes('"updubs:"') && msg.includes('"downdubs:"')
+const isMessageHidden = msg => msg === UPDUB_COMMAND || msg === DOWNDUB_COMMAND || isDubsList(msg)
 const isVotingNotPossible = () => (($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING))
 const isNewUserLogin = (msg, user) => (user === SERVER_USER && msg.includes("joined"))
 
@@ -44,8 +44,11 @@ socket.on("chatMsg", ({ msg, username: user }) => {
 	console.log(msg)
 	console.log(user)
     handleStylingMessages(msg, user)
+	console.log(msg)
     if (!isVotingNotPossible()) handleDubbing(msg, user)
+	console.log(msg)
 	if (isNewUserLogin(msg, user)) sendMessage(`{"updubs":${updubs}, "downdubs":${downdubs}}`)
+	console.log(msg)
 	if (isDubsList(msg) && user !== currentUser) {
 		const dubsParsed = JSON.parse(msg)
 		updubs = dubsParsed.updubs
