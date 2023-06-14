@@ -9,7 +9,8 @@ const DOWNDUB_COMMAND = "DOWNDUB"
 const NO_VIDEO_PLAYING = "Nothing Playing"
 const SERVER_USER = "[server]"
 
-const isMessageHidden = (msg) => msg === UPDUB_COMMAND || msg === DOWNDUB_COMMAND
+const isDubsList = (msg) => (msg.includes('"updubs:"') && msg.includes('"downdubs:"'))
+const isMessageHidden = (msg) => msg === UPDUB_COMMAND || msg === DOWNDUB_COMMAND || isDubsList(msg)
 const isVotingNotPossible = () => (($('#guestlogin').is(':visible') || $("#currenttitle").text() === NO_VIDEO_PLAYING))
 const isNewUserLogin = (msg, user) => (user === SERVER_USER && msg.includes("joined"))
 
@@ -44,7 +45,12 @@ socket.on("chatMsg", ({ msg, username: user }) => {
 	console.log(user)
     handleStylingMessages(msg, user)
     if (!isVotingNotPossible()) handleDubbing(msg, user)
-	if (isNewUserLogin(msg, user)) sendMessage(updubs)
+	if (isNewUserLogin(msg, user)) sendMessage(`{"updubs":${updubs}, "downdubs":${downdubs}}`)
+	if (isDubsList(msg, user) && user !== currentUser) {
+		const dubsParsed = JSON.parse(msg)
+		updubs = dubsParsed.updubs
+		downdubs = dubsParsed.downdubs
+	}
 })
 
 socket.on("changeMedia", () => {
@@ -62,20 +68,16 @@ function sendMessage(msg) {
 	$('#chatline').trigger(e);
 }
 
-function updub(user) {
-	updubs.includes(user) ? 
-		updubs.splice(updubs.indexOf(user), 1) : updubs.push(user)
-	if (downdubs.includes(user)) {
-		downdubs.splice(downdubs.indexOf(user), 1)
+function dub(user, dubs, oppositeDubs) {
+	dubs.includes(user) ? 
+		dubs.splice(dubs.indexOf(user), 1) : dubs.push(user)
+	if (oppositeDubs.includes(user)) {
+		oppositeDubs.splice(oppositeDubs.indexOf(user), 1)
 	}
 }
-function downdub(user) {
-	downdubs.includes(user) ? 
-		downdubs.splice(downdubs.indexOf(user), 1) : downdubs.push(user)
-	if (updubs.includes(user)) {
-		updubs.splice(updubs.indexOf(user), 1)
-	}
-}
+
+const updub = (user) => dub(user, updubs, downdubs)
+const downdub = (user) => dub(user, downdubs, updubs)
 
 function resetDubs() {
 	updubs = []
