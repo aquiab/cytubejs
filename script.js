@@ -29,22 +29,21 @@ $(document).ready(function() {
 	enableOrDisableButtons()
 });
 
-socket.on("chatMsg", (res) => {
-	console.log(res.msg)
-	console.log(res.username)
-	let user = res.username
-	if (lastMessageText === UPDUB_COMMAND) {
-		if (user === currentUser) {
+socket.on("chatMsg", ({ msg, username }) => {
+	console.log(msg)
+	console.log(username)
+	if (msg === UPDUB_COMMAND) {
+		if (username === currentUser) {
 			$('#updubButton').toggleClass("pressed")
 			$('#downdubButton').removeClass("pressed")
 		}
-		updub(user)
-	} else if (lastMessageText === DOWNDUB_COMMAND) {
-		if (user === currentUser) {
+		updub(username)
+	} else if (msg === DOWNDUB_COMMAND) {
+		if (username === currentUser) {
 			$('#downdubButton').toggleClass("pressed")
 			$('#updubButton').removeClass("pressed")
 		}
-		downdub(user)
+		downdub(username)
 	}
 }) 
 
