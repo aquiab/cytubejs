@@ -34,6 +34,7 @@ $(document).ready(function() {
 
 socket.on("login", ({ success, name }) => {
 	if (success) currentUser = name
+    enableOrDisableButtons()
 })
 
 socket.on("chatMsg", ({ msg, username }) => {
