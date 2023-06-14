@@ -46,8 +46,8 @@ socket.on("chatMsg", ({ msg, username: user }) => {
     handleStylingMessages(msg, user)
     if (!isVotingNotPossible()) handleDubbing(msg, user)
 	if (isNewUserLogin(msg, user)) sendMessage(`{
-		"updubs": [${updubs.map(user => "'" + user + "'").join(',')}], 
-		"downdubs": [${downdubs.map(user => "'" + user + "'").join(',')}]
+		"updubs": [${updubs.map(user => '"' + user + '"').join(',')}], 
+		"downdubs": [${downdubs.map(user => '"' + user + '"').join(',')}]
 	}`)
 	if (isDubsList(msg) && user !== currentUser) {
 		const dubsParsed = JSON.parse(msg)
