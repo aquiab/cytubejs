@@ -32,61 +32,10 @@ $(document).ready(function() {
 socket.on("chatMsg", ({ msg, username }) => {
 	console.log(msg)
 	console.log(username)
-	if (msg === UPDUB_COMMAND) {
-		if (username === currentUser) {
-			$('#updubButton').toggleClass("pressed")
-			$('#downdubButton').removeClass("pressed")
-		}
-		updub(username)
-	} else if (msg === DOWNDUB_COMMAND) {
-		if (username === currentUser) {
-			$('#downdubButton').toggleClass("pressed")
-			$('#updubButton').removeClass("pressed")
-		}
-		downdub(username)
-	}
-}) 
+	handleDubbing(msg, username)
+	handleHidingOrAddingUsernamesToChat(msg, username)
+})
 
-$("#messagebuffer").on('DOMSubtreeModified', function(e) {
-	if(e.target.id !== "#messagebuffer") return
-	var lastMessageDiv = $("#messagebuffer").children().last()
-	var lastMessageUser = lastMessageDiv.attr("class").split('-')[2]
-	var lastMessageText = lastMessageDiv.children().last().html()
-
-	var isChatMessage = lastMessageDiv.attr("class").split('-')[0] === "chat"
-	if (!isChatMessage || $("#messagebuffer").children().length > 100) return
-	
-	if (lastVisibleUser !== lastMessageUser && 
-		isMessageHidden(previousLastMessageText) && 
-		previousLastMessageUser === lastMessageUser) {
-		$(this).off('DOMSubtreeModified');
-		$(`<span><strong class="username">${lastMessageUser}: </strong></span>`).insertAfter(lastMessageDiv.find(".timestamp"))
- 		$(this).on('DOMSubtreeModified', arguments.callee);
-	} else if (lastVisibleUser === lastMessageUser && 
-			   isMessageHidden(previousLastMessageText) && 
-			  previousLastMessageUser !== lastMessageUser) {
-		lastMessageDiv.find(".username").css("display", "none");
-	}
-	previousLastMessageUser = lastMessageUser
-	previousLastMessageText = lastMessageText
-
-	if (isMessageHidden(lastMessageText)) lastMessageDiv.css("display", "none")
-	else lastVisibleUser = lastMessageUser
-
-	if (lastMessageText === UPDUB_COMMAND) {
-		if (lastMessageUser === currentUser) {
-			$('#updubButton').toggleClass("pressed")
-			$('#downdubButton').removeClass("pressed")
-		}
-		updub(lastMessageUser)
-	} else if (lastMessageText === DOWNDUB_COMMAND) {
-		if (lastMessageUser === currentUser) {
-			$('#downdubButton').toggleClass("pressed")
-			$('#updubButton').removeClass("pressed")
-		}
-		downdub(lastMessageUser)
-	}
-});
 
 $("#currenttitle").on('DOMSubtreeModified', function() {
 	enableOrDisableButtons()
@@ -136,6 +85,41 @@ function resetDubs() {
 function refreshDubs() {
 	$('#downdubButton').html(downdubs.length)
 	$('#updubButton').html(updubs.length)
+}
+
+function handleDubbing(msg, username) {
+	if (msg === UPDUB_COMMAND) {
+		if (username === currentUser) {
+			$('#updubButton').toggleClass("pressed")
+			$('#downdubButton').removeClass("pressed")
+		}
+		updub(username)
+	} else if (msg === DOWNDUB_COMMAND) {
+		if (username === currentUser) {
+			$('#downdubButton').toggleClass("pressed")
+			$('#updubButton').removeClass("pressed")
+		}
+		downdub(username)
+	}
+}
+
+function handleHidingOrAddingUsernamesToChat(msg, username) {
+	var lastMessageDiv = $("#messagebuffer").children().last()
+
+	if (lastVisibleUser !== username && 
+		isMessageHidden(previousLastMessageText) && 
+		previousLastMessageUser === username) {
+		$(`<span><strong class="username">${username}: </strong></span>`).insertAfter(lastMessageDiv.find(".timestamp"))
+	} else if (lastVisibleUser === username && 
+			   isMessageHidden(previousLastMessageText) && 
+			  previousLastMessageUser !== username) {
+		lastMessageDiv.find(".username").css("display", "none");
+	}
+	previousLastMessageUser = username
+	previousLastMessageText = msg
+
+	if (isMessageHidden(msg)) lastMessageDiv.css("display", "none")
+	else lastVisibleUser = username
 }
 
 function enableOrDisableButtons() {
