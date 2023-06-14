@@ -26,7 +26,8 @@ $(document).ready(function() {
   	</div>
   	</span>
 	`)
-	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND})`).parent().hide()
+	$(`span:contains(${UPDUB_COMMAND}), span:contains(${DOWNDUB_COMMAND}), 
+	span:contains("updubs":), span:contains("downdubs":)`).parent().hide()
     if ($('#welcome').length) currentUser = $("#welcome").text().split(',')[1].trim()
 	var lastMessageDiv = $("#messagebuffer").children().last()
 	if (lastMessageDiv) {
@@ -50,9 +51,7 @@ socket.on("chatMsg", ({ msg, username: user }) => {
 		"downdubs": [${downdubs.map(user => '"' + user + '"').join(',')}]
 	}`)
 	if (isDubsList(msg) && user !== currentUser) {
-		const dubsParsed = JSON.parse(msg)
-		updubs = dubsParsed.updubs
-		downdubs = dubsParsed.downdubs
+		handleDubsJsonMessage(msg)
 	}
 })
 
@@ -86,29 +85,18 @@ function resetDubs() {
 	updubs = []
 	downdubs = []
 	refreshDubs()
-	$('#downdubButton').removeClass("pressed")
-	$('#updubButton').removeClass("pressed")
 }
 
 function refreshDubs() {
+	$('#updubButton').toggleClass("pressed", updubs.includes(currentUser))
+	$('#downdubButton').toggleClass("pressed", downdubs.includes(currentUser))
 	$('#downdubButton').html(downdubs.length)
 	$('#updubButton').html(updubs.length)
 }
 
 function handleDubbing(msg, user) {
-	if (msg === UPDUB_COMMAND) {
-		if (user === currentUser) {
-			$('#updubButton').toggleClass("pressed")
-			$('#downdubButton').removeClass("pressed")
-		}
-		updub(user)
-	} else if (msg === DOWNDUB_COMMAND) {
-		if (user === currentUser) {
-			$('#downdubButton').toggleClass("pressed")
-			$('#updubButton').removeClass("pressed")
-		}
-		downdub(user)
-	}
+	if (msg === UPDUB_COMMAND) updub(user)
+	else if (msg === DOWNDUB_COMMAND) downdub(user)
     refreshDubs()
 }
 
@@ -131,12 +119,14 @@ function handleStylingMessages(msg, user) {
 	else lastVisibleUser = user
 }
 
+function handleDubsJsonMessage(msg) {
+	const dubsParsed = JSON.parse(msg)
+	updubs = dubsParsed.updubs
+	downdubs = dubsParsed.downdubs
+	refreshDubs()
+}
+
 function enableOrDisableButtons() {
-	if (isVotingNotPossible()) {
-		$('#downdubButton').addClass("disabled")
-		$('#updubButton').addClass("disabled")
-	} else {
-		$('#downdubButton').removeClass("disabled")
-		$('#updubButton').removeClass("disabled")
-	}
+	$('#downdubButton').toggleClass("disabled", isVotingNotPossible())
+	$('#updubButton').addClass("disabled", isVotingNotPossible())
 }
