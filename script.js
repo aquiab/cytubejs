@@ -75,6 +75,7 @@ function dub(user, dubs, oppositeDubs) {
 	if (oppositeDubs.includes(user)) {
 		oppositeDubs.splice(oppositeDubs.indexOf(user), 1)
 	}
+	refreshDubs()
 }
 
 const updub = (user) => dub(user, updubs, downdubs)
@@ -96,7 +97,6 @@ function refreshDubs() {
 function handleDubbing(msg, user) {
 	if (msg === UPDUB_COMMAND) updub(user)
 	else if (msg === DOWNDUB_COMMAND) downdub(user)
-    refreshDubs()
 }
 
 function handleStylingMessages(msg, user) {
